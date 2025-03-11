@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
+const port = process.env.PORT;
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -20,10 +21,11 @@ const testJwtRouter = require('./controllers/test-jwt');
 const authRouter = require('./controllers/auth');
 const usersRouter = require('./controllers/users');
 // Routes go here
+//CHANGE THESE ROUTES
 app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
 app.use('/users', usersRouter);
 
-app.listen(3000, () => {
-  console.log('Server is running');
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

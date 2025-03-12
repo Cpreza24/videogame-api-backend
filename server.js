@@ -20,11 +20,13 @@ app.use(logger('dev'));
 const testJwtRouter = require('./controllers/test-jwt');
 const authRouter = require('./controllers/auth');
 const usersRouter = require('./controllers/users');
+const consolesRouter = require('./controllers/consoles');
 // Routes go here
 //CHANGE THESE ROUTES
 app.use('/auth', authRouter);
-app.use('/test-jwt', testJwtRouter);
+// app.use('/test-jwt', testJwtRouter);
 app.use('/users', usersRouter);
+app.use('/consoles', consolesRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

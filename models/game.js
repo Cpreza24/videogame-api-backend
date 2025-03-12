@@ -7,8 +7,8 @@ const videoGameSchema = new mongoose.Schema(
       required: true,
     },
     console: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Console',
+      type: String,
+      required: true,
     },
     rating: {
       type: Number,

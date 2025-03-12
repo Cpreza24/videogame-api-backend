@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const consoleSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -17,6 +17,10 @@ const consoleSchema = new mongoose.Schema(
     games: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Game',
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   { timestamps: true }

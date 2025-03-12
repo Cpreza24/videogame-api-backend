@@ -63,7 +63,7 @@ router.put('/:consoleId', verifyToken, async (req, res) => {
 router.get('/:consoleId', verifyToken, async (req, res) => {
   try {
     const console = await Console.findById(req.params.consoleId).populate([
-      'title',
+      'name',
     ]);
     res.status(200).json(console);
   } catch (err) {

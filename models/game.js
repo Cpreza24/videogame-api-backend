@@ -18,10 +18,14 @@ const videoGameSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );
 
 const Game = mongoose.model('Game', videoGameSchema);
 
-module.export = Game;
+module.exports = Game;

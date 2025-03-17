@@ -5,13 +5,6 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
-
-mongoose.connect(process.env.MONGODB_URI);
-
-mongoose.connection.on('connected', () => {
-  console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
-});
-
 const allowedOrigins = ['https://videogame-library.netlify.app'];
 
 app.use(
@@ -21,8 +14,15 @@ app.use(
     credentials: true,
   })
 );
+app.options('*', cors());
 app.use(express.json());
 app.use(logger('dev'));
+
+mongoose.connect(process.env.MONGODB_URI);
+
+mongoose.connection.on('connected', () => {
+  console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
+});
 
 const authRouter = require('./controllers/auth');
 const usersRouter = require('./controllers/users');

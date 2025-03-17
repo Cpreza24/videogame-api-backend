@@ -7,8 +7,8 @@ const cors = require('cors');
 const logger = require('morgan');
 const allowedOrigins = [
   'https://videogame-library.netlify.app', // Netlify Frontend
-  'http://localhost:5173', // Local frontend (Vite)
-  'http://localhost:3000', // Local backend
+  'http://localhost:5173',
+  'http://127.0.0.1:5173', // Local backend
 ];
 
 app.use((req, res, next) => {
@@ -24,9 +24,11 @@ app.use((req, res, next) => {
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log('Incoming request from origin:', origin);
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error('Blocked by CORS:', origin);
         callback(new Error('Not allowed by CORS'));
       }
     },

@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
+const slash = require('express-slash');
 const allowedOrigins = ['https://videogame-library.netlify.app'];
 
 app.use(

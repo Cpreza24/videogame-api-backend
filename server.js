@@ -8,6 +8,13 @@ const logger = require('morgan');
 const slash = require('express-slash');
 const allowedOrigins = ['https://videogame-library.netlify.app'];
 
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+  next();
+});
+
 app.use(
   cors({
     origin: allowedOrigins,

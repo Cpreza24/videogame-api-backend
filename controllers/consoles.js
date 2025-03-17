@@ -5,7 +5,16 @@ const router = express.Router();
 
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const console = await Console.find({});
+    const console = await Console.find({ user: req.user._id });
+    res.status(200).json(console);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
+
+router.get('/', verifyToken, async (req, res) => {
+  try {
+    const console = await Console.find(req.params._id);
     res.status(200).json(console);
   } catch (err) {
     res.status(500).json({ err: err.message });
@@ -26,6 +35,10 @@ router.post('/', verifyToken, async (req, res) => {
 router.delete('/:consoleId', verifyToken, async (req, res) => {
   try {
     const console = await Console.findById(req.params.consoleId);
+
+    if (!console) {
+      return res.status(404).json({ error: 'Console not found' });
+    }
 
     if (!console.user.equals(req.user._id)) {
       return res.status(403).send('Cant delete consoles from another user');

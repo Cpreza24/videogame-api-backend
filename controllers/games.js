@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const game = await Game.find({});
+    const game = await Game.find({ user: req.user._id });
     res.status(200).json(game);
   } catch (err) {
     res.status(500).json({ err: err.message });

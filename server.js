@@ -12,7 +12,15 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(cors());
+const allowedOrigins = ['https://videogame-library.netlify.app'];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: 'GET, POST, PUT, DELETE',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(logger('dev'));
 

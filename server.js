@@ -5,11 +5,17 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
-const slash = require('express-slash');
-const allowedOrigins = ['https://videogame-library.netlify.app'];
+const allowedOrigins = [
+  'https://videogame-library.netlify.app', // Netlify Frontend
+  'http://localhost:5173', // Local frontend (Vite)
+  'http://localhost:3000', // Local backend
+];
 
 app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    req.headers['x-forwarded-proto'] !== 'https'
+  ) {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
@@ -17,15 +23,20 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: allowedOrigins,
-    methods: 'GET, POST, PUT, DELETE',
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
     credentials: true,
   })
 );
 app.options('*', cors());
 app.use(express.json());
 app.use(logger('dev'));
-app.use(slash());
 
 mongoose.connect(process.env.MONGODB_URI);
 
